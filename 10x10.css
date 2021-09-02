@@ -1,0 +1,126 @@
+body {
+	/*background-color: #eff5f5;*/
+	background-color: #e8e8e8;
+	font-family: verdana;
+}
+
+h1 {
+	color: #057d9f;
+}
+
+table {
+	border-collapse: collapse;
+	margin: 0 auto;
+}
+
+table, th, td {
+	/*border: 2px solid #1d3030;*/
+	border: 2px solid #025167;
+}
+
+td {
+	width: 35px;
+	height: 35px;
+	vertical-align: middle;
+	text-align: center;
+	color: darkslategray;
+	padding: 0px;
+}
+
+a {
+	color: #ff8100;
+	font-weight: bold;
+}
+
+#title {
+	height: 75px;
+	padding: 0px;
+}
+
+#resetBoard {
+	padding: 5px;
+}
+
+#resetMe {
+	color: white;
+	background-color: #ff8100;
+	border: none;
+	font-size: 20px;
+	font-family: verdana;
+	font-weight: bold;
+}
+
+#rules {
+	color: #057d9f;
+	font-weight: bold;
+}
+
+#donate {
+	color: #057d9f;
+	font-weight: bold;
+}
+
+.small {
+	color: #057d9f;
+	font-size: 10px;
+	font-family: verdana;
+}
+
+.centered {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	/* border: 3px solid black; */
+}
+
+.singleCell {
+	height: 100%;
+	width: 100%;
+	/*background-color: yellow;*/
+	background-color: #ff8100;
+	display: block;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.nextMove {
+	background-color: yellow;
+}
+
+.filledCell {
+	height: 100%;
+	width: 100%;
+	/*background-color: greenyellow;*/
+	background-color: #057d9f;
+	color: white;
+	display: block;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: verdana;
+}
+
+.latestCell  {
+	height: 100%;
+	width: 100%;
+	/*background-color: greenyellow;*/
+	background-color: #057d9f;
+	color: #ff8100;
+	display: block;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: verdana;
+}
+
+.noMove {
+	height: 100%;
+	width: 100%;
+	background-color: whitesmoke;
+	display: block;
+	vertical-align: middle;
+	text-align: center;
+}

@@ -1,0 +1,229 @@
+<!--
+Autohr: Giovanni Vincenti
+Copyright: All rights reserved
+Contact: giovanni.vincenti@gmail.com
+Publication date: 2016-01-25
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>10 X 10</title>
+<link rel="stylesheet" type="text/css" href="10x10.css">
+<link rel="icon"
+      type="image/ico"
+	  href="./10x10_icon.png">
+	  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-72926908-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+var counter = 0;
+var defaultChar = "&nbsp";
+//var initMsg = "Click on any orange tile to place a \"1\"";
+var initMsg = "Click on any orange tile to start";
+var resetMsg = "Reset board";
+var instructions = "HOW TO PLAY";
+instructions += "\nFill the entire table with numbers 1 to 100 in a sequence.";
+instructions += "\nStart by placing number \"1\" anywhere on the board.";
+instructions += "\nPlace the next number two cells away horizontally or vertically, or one cell away diagonally.";
+var lastSpan = 0;
+function clickMe(mySpan) {
+	//alert(mySpan.id + ", Counter: " + counter);
+	if ( document.getElementById("resetMe").innerHTML === initMsg ) {
+		document.getElementById("resetMe").innerHTML = resetMsg;
+	}
+	if ( mySpan.innerHTML === "&nbsp;" && mySpan.className === "singleCell" ) {
+		counter++;
+		mySpan.innerHTML = counter;
+		mySpan.className = "latestCell";
+		//mySpan.className = "filledCell";
+		if ( lastSpan != 0 ) {
+			lastSpan.className = "filledCell";
+		}
+		lastSpan = mySpan;
+		for ( x = 1; x <= 10; x++ ) {
+			for ( y = 1; y <= 10; y++ ) {
+				if ( document.getElementById(x + "-" + y).innerHTML === "&nbsp;" ) {
+					document.getElementById(x + "-" + y).className = "noMove";
+				}
+			}
+		}
+		var coords = mySpan.id.split("-");
+		var cellsEnabled = enableCells(parseInt(coords[0]),parseInt(coords[1]));
+		//if ( cellsEnabled )
+		if ( !cellsEnabled ) {
+			if ( isBoardFull() ) {
+				alert("Congratulations! You placed all the tiles!");
+			} else {
+				alert("No more moves. Please try again!");
+			}
+		}
+	}
+}
+
+function isBoardFull() {
+	var flag = true;
+	for ( x = 1; x <= 10; x++ ) {
+		for ( y = 1; y <= 10; y++ ) {
+			if ( document.getElementById(x + "-" + y).innerHTML === "&nbsp;" ) {
+				flag = false;
+			}
+		}
+	}
+	return flag;
+}
+
+function enableCells(x,y) {
+	var flag = false;
+	var newX = 0;
+	var newY = 0;
+	
+	if ( ( y - 3 ) > 0 ) {
+		newY = y-3;
+		if ( document.getElementById(x + "-" + newY).innerHTML === "&nbsp;" ) {
+			document.getElementById(x + "-" + newY).className = "singleCell";
+			flag = true;
+		}
+	}
+	
+	if ( ( y + 3 ) <= 10 ) {
+		newY = y+3;
+		if ( document.getElementById(x + "-" + newY).innerHTML === "&nbsp;" ) {
+			document.getElementById(x + "-" + newY).className = "singleCell";
+			flag = true;
+		}
+	}
+	
+	if ( ( x + 3 ) <= 10 ) {
+		newX = x+3;
+		if ( document.getElementById(newX + "-" + y).innerHTML === "&nbsp;" ) {
+			document.getElementById(newX + "-" + y).className = "singleCell";
+			flag = true;
+		}
+	}
+	
+	if ( ( x - 3 ) > 0 ) {
+		newX = x-3;
+		if ( document.getElementById(newX + "-" + y).innerHTML === "&nbsp;" ) {
+			document.getElementById(newX + "-" + y).className = "singleCell";
+			flag = true;
+		}
+	}
+	
+	if ( ( x + 2 ) <= 10 && ( y + 2 ) <= 10 ) {
+		newX = x+2;
+		newY = y+2;
+		if ( document.getElementById(newX + "-" + newY).innerHTML === "&nbsp;" ) {
+			document.getElementById(newX + "-" + newY).className = "singleCell";
+			flag = true;
+		}
+	}
+	
+	if ( ( x - 2 ) > 0 && ( y + 2 ) <= 10 ) {
+		newX = x-2;
+		newY = y+2;
+		if ( document.getElementById(newX + "-" + newY).innerHTML === "&nbsp;" ) {
+			document.getElementById(newX + "-" + newY).className = "singleCell";
+			flag = true;
+		}
+	}
+	
+	if ( ( x - 2 ) > 0 && ( y - 2 ) > 0 ) {
+		newX = x-2;
+		newY = y-2;
+		if ( document.getElementById(newX + "-" + newY).innerHTML === "&nbsp;" ) {
+			document.getElementById(newX + "-" + newY).className = "singleCell";
+			flag = true;
+		}
+	}
+	
+	if ( ( x + 2 ) <= 10 && ( y - 2 ) > 0 ) {
+		newX = x+2;
+		newY = y-2;
+		if ( document.getElementById(newX + "-" + newY).innerHTML === "&nbsp;" ) {
+			document.getElementById(newX + "-" + newY).className = "singleCell";
+			flag = true;
+		}
+	}
+	
+	return flag;
+}
+
+function resetBoard() {
+	if ( document.getElementById("resetMe").innerHTML === initMsg ) {
+		alert(instructions);
+	} else {
+		var answer = confirm("Are you sure you want to reset the board?");
+		if ( answer === true ) {
+			document.getElementById("board").innerHTML = createGameTable();
+			counter = 0;
+			document.getElementById("resetMe").innerHTML = initMsg;
+		}
+	}
+}
+
+function createGameTable() {
+	var toReturn = "<table>";
+	for ( y = 1; y <= 10; y++ ) {
+		toReturn += "<tr>";
+		for ( x = 1; x <= 10; x++ ) {
+			var num = (10*(x-1)+y);
+			var itemID = x + "-" + y;
+			toReturn += "<td><span class=\"singleCell\" id=\"" + itemID + "\" onclick=\"clickMe(this);\">&nbsp;</span></td>";
+		}
+		toReturn += "</tr>";
+	}
+	toReturn += "</table>";
+	return toReturn;
+}
+</script>
+</head>
+
+<body>
+	<div id="title" class="centered">
+		<img id="logo" src="./10x10_logo.png" alt="100 tiles" height="62" width="298" />
+	</div>
+	<div id="board" class="centered">
+		<script>
+			document.write(createGameTable());
+		</script>
+	</div>
+	<div id="resetBoard" class="centered">
+		<button id="resetMe" onclick="resetBoard();">Reset board</button>
+	</div>
+	<script>
+		document.getElementById("resetMe").innerHTML = initMsg;
+	</script>
+	<div id="rules" class="centered" onclick="alert(instructions);">
+		Read the rules
+	</div>
+	<div id="donate" class="centered">
+		Help me support <a target="_blank" href="https://donate.doctorswithoutborders.org">Doctors Without Borders</a>
+	</div>
+	<div class="centered small">
+		Copyright <a href="mailto:g.vincenti@yahoo.com">Giovanni Vincenti</a>, All Rights Reserved
+	</div>
+	<!-- <div class="centered">
+		<a href="">About the creator</a>
+	</div>
+	<div id="donate" class="centered">
+		<a href="http://www.doctorswithoutborders.org?source=AUU000000D05" target="_blank">
+			<img width="100" src="http://www.doctorswithoutborders.org/sites/usa/files/proud_msf_supporter.png" border="none" alt="Support Doctors Without Borders" />
+		</a>
+	</div> -->
+	<!-- <div id="instructions">
+		<div>Instructions</div>
+		<div>Fill the entire table with numbers 1 to 100 in a sequence.</div>
+		<div>Start by placing number "1" anywhere on the board.</div>
+		<div>Place the next number two cells away horizontally or vertically, or one cell away diagonally.</div>
+	</div> -->
+</body>
+
+</html> 
